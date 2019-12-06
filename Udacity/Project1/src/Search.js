@@ -11,8 +11,11 @@ class Search extends React.Component {
 
   inputChange = (newValue) => {
     this.setState({searchValue: newValue});
-    if (newValue === ""){ return undefined}
-    this.searchDB(newValue);
+    if (newValue === ""){
+      this.setState({searchResults: []})
+    }else {
+      this.searchDB(newValue)
+    }
   }
 
   searchDB = (query) => {
@@ -21,8 +24,7 @@ class Search extends React.Component {
   }
 
   validateDBSearch = (results) => {
-    console.log(results);
-    if (results.hasOwnProperty("error")){
+    if ( results.hasOwnProperty("error")){
       this.setState({searchResults: []})
     }else{
       this.setState({searchResults: results})
