@@ -166,6 +166,22 @@ button:active {
   align-items: flex-end;
 }
 
+.book-shelf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 20px;
+  background: #60ac5d;
+
+}
+
+.book-shelf-status{
+  margin: 0;
+  color: white;
+  text-align: center;
+}
+
 .book-shelf-changer {
   position: absolute;
   right: 0;

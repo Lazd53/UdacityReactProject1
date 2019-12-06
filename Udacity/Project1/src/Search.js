@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 
 import SearchResults from './SearchResults';
+import SearchBar from './SearchBar'
 
 class Search extends React.Component {
   state = {searchValue:'',
@@ -31,30 +31,15 @@ class Search extends React.Component {
     }
   }
 
+  moveToShelf = async (bookID, newShelf) => {
+    BooksAPI.update(bookID, newShelf);
+    }
+
   render(){
     return (
       <div className="search-books">
-        <div className="search-books-bar">
-          <Link to = "/">
-            <button className="close-search">Close</button>
-          </Link>
-          <form className="search-books-input-wrapper" onSubmit={(e) => e.preventDefault()}>
-            {/*
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
-            */}
-            <input type="text"
-              value={this.state.searchValue}
-              onChange={(e) => this.inputChange(e.target.value)}
-              placeholder="Search by title or author"
-            />
-          </form>
-        </div>
-        <SearchResults results={this.state.searchResults}/>
+        <SearchBar currentValue = {this.state.value} changeInput={this.inputChange}/>
+        <SearchResults moveToShelf={this.moveToShelf} results={this.state.searchResults}/>
       </div>
     )
   }

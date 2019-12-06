@@ -4,21 +4,28 @@ import Shelf from './Shelf';
 import * as BooksAPI from './BooksAPI'
 
 class BookShelves extends React.Component{
-  state = {currentlyReading: [],
-            toRead: [],
-            read: []
+  state = {books: []
           };
 
   componentDidMount(){
     BooksAPI.getAll()
       .then((books) => {
-        let currentlyReading = books.filter((book) => book.shelf === "currentlyReading");
-        let toRead = books.filter ((book) => book.shelf === "wantToRead");
-        let read = books.filter ((book) => book.shelf === "read");
-        this.setState({currentlyReading: currentlyReading, toRead: toRead, read: read})
+        this.setState({books: books});
       });
+    }
 
+  filterBookShelf = (shelf) =>{
+    let allBooks = this.state.books;
+    return  allBooks.filter((book) => book.shelf === shelf);
   }
+
+  moveToShelf = async (bookID, newShelf) => {
+    await BooksAPI.update(bookID, newShelf);
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState({books: books});
+      });
+    }
 
   render(){
     return (
@@ -27,15 +34,18 @@ class BookShelves extends React.Component{
           <div>
             <Shelf
               shelfName="Currently Reading"
-              books = {this.state.currentlyReading}
+              books = {this.filterBookShelf("currentlyReading")}
+              moveShelf = {this.moveToShelf}
             />
             <Shelf
               shelfName="In the Queue"
-              books = {this.state.toRead}
+              books = {this.filterBookShelf("wantToRead")}
+              moveShelf = {this.moveToShelf}
             />
             <Shelf
               shelfName="Read"
-              books = {this.state.read}
+              books = {this.filterBookShelf("read")}
+              moveShelf = {this.moveToShelf}
             />
           </div>
         </div>

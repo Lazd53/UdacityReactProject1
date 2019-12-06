@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import ShelfChanger from './ShelfChanger';
 
 class Book extends React.Component {
-  constructor(props){
-    super(props)
-    console.log(this.props.bookInfo)
-  }
+
   choosebackgroundImage(){
     if (!this.props.bookInfo.hasOwnProperty("imageLinks")){
       return <div className="book-cover" style={{ width: 128, height: 193 }}></div>
@@ -18,23 +16,31 @@ class Book extends React.Component {
      }
   }
 
+  shelfStatus = () => {
+    let options = {
+      currentlyReading: "Reading",
+      wantToRead: "Queue",
+      read: "Read"
+    }
+    return options[this.props.bookInfo.shelf]
+  }
+
   render(){
     let bookInfo = this.props.bookInfo;
     return (
       <li className="book">
         <div className="book-top">
-          <Link to={`/books/${bookInfo.id}`}>
-            {this.choosebackgroundImage()}
-            <div className="book-shelf-changer">
-              <select>
-                <option value="move" disabled>Move to...</option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
-              </select>
+          {this.choosebackgroundImage()}
+          {bookInfo.shelf &&
+            <div className='book-shelf'>
+              <p className='book-shelf-status'>{this.shelfStatus()}</p>
             </div>
-          </Link>
+          }
+          <ShelfChanger
+            moveToShelf={this.props.moveToShelf}
+            id={bookInfo.id}
+            currentShelf={bookInfo.shelf}
+          />
         </div>
         <div className="book-title">{bookInfo.title}</div>
         <div className="book-subtitle">{bookInfo.subtitle}</div>
