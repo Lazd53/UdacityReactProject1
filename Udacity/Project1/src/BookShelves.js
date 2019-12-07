@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import Shelf from './Shelf';
+import BookModal from './BookModal'
 import * as BooksAPI from './BooksAPI'
 
 class BookShelves extends React.Component{
-  state = {books: []
-          };
+  state = {
+    books: [],
+    modal: false,
+    chosenBook: {}
+    };
 
   componentDidMount(){
     BooksAPI.getAll()
@@ -13,6 +17,15 @@ class BookShelves extends React.Component{
         this.setState({books: books});
       });
     }
+
+  openModal = (bookInfo) => {
+    this.setState({modal: true, chosenBook: bookInfo})
+    console.log(this.state.chosenBook)
+  }
+
+  closeModal = () => {
+    this.setState({modal: false, chosenBook: {}})
+  }
 
   filterBookShelf = (shelf) =>{
     let allBooks = this.state.books;
@@ -36,16 +49,19 @@ class BookShelves extends React.Component{
               shelfName="Currently Reading"
               books = {this.filterBookShelf("currentlyReading")}
               moveShelf = {this.moveToShelf}
+              openModal = {this.openModal}
             />
             <Shelf
               shelfName="In the Queue"
               books = {this.filterBookShelf("wantToRead")}
               moveShelf = {this.moveToShelf}
+              openModal = {this.openModal}
             />
             <Shelf
               shelfName="Read"
               books = {this.filterBookShelf("read")}
               moveShelf = {this.moveToShelf}
+              openModal = {this.openModal}
             />
           </div>
         </div>
@@ -54,6 +70,7 @@ class BookShelves extends React.Component{
             <button>Add a book</button>
           </Link>
         </div>
+        {this.state.modal && <BookModal bookInfo={this.state.chosenBook}/>}
       </div>
     )
   }

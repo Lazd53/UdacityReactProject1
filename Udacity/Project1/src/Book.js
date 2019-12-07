@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ShelfChanger from './ShelfChanger';
 
 class Book extends React.Component {
@@ -26,22 +25,22 @@ class Book extends React.Component {
   }
 
   render(){
-    let bookInfo = this.props.bookInfo;
+    let {bookInfo} = this.props;
     return (
       <li className="book">
-        <div className="book-top">
+        <div className="book-top" onClick={() => this.props.openModal(this.props.bookInfo)}>
           {this.choosebackgroundImage()}
           {bookInfo.shelf &&
             <div className='book-shelf'>
               <p className='book-shelf-status'>{this.shelfStatus()}</p>
             </div>
           }
-          <ShelfChanger
-            moveToShelf={this.props.moveToShelf}
-            id={bookInfo.id}
-            currentShelf={bookInfo.shelf}
-          />
         </div>
+        <ShelfChanger
+          moveToShelf={this.props.moveToShelf}
+          id={bookInfo.id}
+          currentShelf={bookInfo.shelf}
+        />
         <div className="book-title">{bookInfo.title}</div>
         <div className="book-subtitle">{bookInfo.subtitle}</div>
         {this.props.bookInfo.hasOwnProperty("authors") && <div className="book-authors">{bookInfo.authors.join(", ")}</div>}

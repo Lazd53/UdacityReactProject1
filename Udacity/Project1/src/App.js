@@ -12,7 +12,7 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    highlightedBook: {}
+    favorites: []
   }
 
   render() {
@@ -26,9 +26,6 @@ class BooksApp extends React.Component {
         </Route>
         <Route exact path = "/">
           <BookShelves/>
-        </Route>
-        <Route path = '/books'>
-          <div>Test</div>
         </Route>
       </div>
     )
