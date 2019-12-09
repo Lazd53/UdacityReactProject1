@@ -242,12 +242,17 @@ button:active {
   width: 600px;
   height: 800px;
   background-color: white;
-  border: 2px solid black;
+  border: 5px solid #2e7d32;
+  border-radius: 15px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   padding: 40px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.modal-book a{
+  text-decoration: none;
 }
 
 .modal-book .book-cover {
@@ -264,7 +269,9 @@ button:active {
 }
 
 .modal-book-description-text {
+  margin-top: 3px;
   margin-right: 7px;
+  text-indent: 2em;
 }
 
 .modal-book-categories {
@@ -277,4 +284,23 @@ button:active {
   align-items: center;
   color: white;
   padding: 0 10px;
+  text-decoration: none;
+}
+
+.modal-close {
+  display: block;
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background-image: url('./icons/close.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  font-size: 0;
+  border: none;
+  outline: none;
+  border-radius: 50%
 }

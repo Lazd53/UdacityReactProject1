@@ -21,8 +21,9 @@ class BooksApp extends React.Component {
       <header className="list-books-title">
         <h1>MyReads</h1>
       </header>
-        <Route path="/search">
-          <Search/>
+        <Route
+          path="/search"
+          component={Search}>
         </Route>
         <Route exact path = "/">
           <BookShelves/>

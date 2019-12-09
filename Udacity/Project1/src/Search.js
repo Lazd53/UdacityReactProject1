@@ -2,12 +2,23 @@ import React from 'react';
 import * as BooksAPI from './BooksAPI';
 
 import SearchResults from './SearchResults';
-import SearchBar from './SearchBar'
+import SearchBar from './SearchBar';
+import BookModal from './BookModal';
 
 class Search extends React.Component {
   state = {searchValue:'',
-          searchResults: []};
+          searchResults: [],
+          modal: false,
+          chosenBook: {}
+        };
+        
+  openModal = (bookInfo) => {
+    this.setState({modal: true, chosenBook: bookInfo})
+  }
 
+  closeModal = () => {
+    this.setState({modal: false, chosenBook: {}})
+  }
 
   inputChange = (newValue) => {
     this.setState({searchValue: newValue});
@@ -38,8 +49,21 @@ class Search extends React.Component {
   render(){
     return (
       <div className="search-books">
-        <SearchBar currentValue = {this.state.value} changeInput={this.inputChange}/>
-        <SearchResults moveToShelf={this.moveToShelf} results={this.state.searchResults}/>
+        <SearchBar
+          currentValue = {this.state.searchValue}
+          changeInput={this.inputChange}
+        />
+        <SearchResults
+          moveToShelf={this.moveToShelf}
+          results={this.state.searchResults}
+          openModal={this.openModal}
+        />
+        {this.state.modal &&
+          <BookModal
+            closeModal={this.closeModal}
+            bookInfo={this.state.chosenBook}
+            />
+        }
       </div>
     )
   }

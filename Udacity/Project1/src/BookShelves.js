@@ -70,7 +70,12 @@ class BookShelves extends React.Component{
             <button>Add a book</button>
           </Link>
         </div>
-        {this.state.modal && <BookModal bookInfo={this.state.chosenBook}/>}
+        {this.state.modal &&
+          <BookModal
+            closeModal={this.closeModal}
+            bookInfo={this.state.chosenBook}
+            />
+        }
       </div>
     )
   }
