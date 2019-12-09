@@ -19,7 +19,10 @@ class ShelfChanger extends React.Component {
     let {moveToShelf, id, currentShelf} = this.props;
     return (
       <div className="book-shelf-changer">
-        <select value={currentShelf} onChange={ (event) => moveToShelf({ id: id}, event.target.value)}>
+        <select
+          value={currentShelf? currentShelf: "none"} 
+          onChange={ (event) => moveToShelf({ id: id}, event.target.value)}
+        >
           <option value="move" disabled>Move to...</option>
           {this.createOptions(this.props.currentShelf)}
         </select>

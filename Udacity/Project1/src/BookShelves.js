@@ -20,7 +20,6 @@ class BookShelves extends React.Component{
 
   openModal = (bookInfo) => {
     this.setState({modal: true, chosenBook: bookInfo})
-    console.log(this.state.chosenBook)
   }
 
   closeModal = () => {
