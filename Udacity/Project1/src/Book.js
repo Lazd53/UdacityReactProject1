@@ -30,7 +30,7 @@ class Book extends React.Component {
       <li className="book">
         <div className="book-top" onClick={() => this.props.openModal(this.props.bookInfo)}>
           {this.choosebackgroundImage()}
-          {bookInfo.shelf &&
+          {bookInfo.shelf !=="none" &&
             <div className='book-shelf'>
               <p className='book-shelf-status'>{this.shelfStatus()}</p>
             </div>

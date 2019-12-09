@@ -9,9 +9,21 @@ class Search extends React.Component {
   state = {searchValue:'',
           searchResults: [],
           modal: false,
-          chosenBook: {}
+          chosenBook: {},
+          userBooks: {}
         };
-        
+
+  componentDidMount(){
+    this.getUserBooks();
+  }
+
+  getUserBooks = async () => {
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState({userBooks: books});
+      });
+    }
+
   openModal = (bookInfo) => {
     this.setState({modal: true, chosenBook: bookInfo})
   }
@@ -31,19 +43,42 @@ class Search extends React.Component {
 
   searchDB = (query) => {
     BooksAPI.search(query)
-      .then((results) => this.validateDBSearch(results) );
+      .then((results) => {
+        console.log("searchDB");
+        query === this.state.searchValue &&
+          this.validateDBSearch(results)} );
   }
 
   validateDBSearch = (results) => {
+    console.log("validate")
     if ( results.hasOwnProperty("error")){
       this.setState({searchResults: []})
     }else{
+      results = this.addShelfInformation(results);
       this.setState({searchResults: results})
     }
   }
 
-  moveToShelf = async (bookID, newShelf) => {
+  addShelfInformation = (validatedResults) => {
+    let shelfResults = validatedResults.map (book => {
+      let matchingBook = this.state.userBooks.filter(userBook => userBook.id === book.id)
+      matchingBook.length>0 ?
+        book.shelf = (matchingBook[0].shelf) :
+        book.shelf = "none";
+      return book});
+    return shelfResults
+  }
+
+  moveToShelf = (bookID, newShelf) => {
     BooksAPI.update(bookID, newShelf);
+    this.setState( (currState) => ({
+      searchResults: currState.searchResults.map( result => {
+        if (result.id === bookID.id){
+          result.shelf = newShelf;
+        }
+        return result
+      })
+    }))
     }
 
   render(){
