@@ -10,7 +10,8 @@ class Search extends React.Component {
           searchResults: [],
           modal: false,
           chosenBook: {},
-          userBooks: {}
+          userBooks: {},
+          noResultsMsg: false
         };
 
   componentDidMount(){
@@ -44,18 +45,16 @@ class Search extends React.Component {
   searchDB = (query) => {
     BooksAPI.search(query)
       .then((results) => {
-        console.log("searchDB");
         query === this.state.searchValue &&
           this.validateDBSearch(results)} );
   }
 
   validateDBSearch = (results) => {
-    console.log("validate")
     if ( results.hasOwnProperty("error")){
-      this.setState({searchResults: []})
+      this.setState({searchResults: [], noResultsMsg: true})
     }else{
       results = this.addShelfInformation(results);
-      this.setState({searchResults: results})
+      this.setState({searchResults: results, noResultsMsg: false})
     }
   }
 
@@ -92,6 +91,7 @@ class Search extends React.Component {
           moveToShelf={this.moveToShelf}
           results={this.state.searchResults}
           openModal={this.openModal}
+          noResultsMsg={this.state.noResultsMsg}
         />
         {this.state.modal &&
           <BookModal
